@@ -19,6 +19,150 @@ class FilmRepository extends ServiceEntityRepository
         parent::__construct($registry, Film::class);
     }
 
+    public function sortASCFilm()
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a.title, a.rental_rate, a.rating, b.name , COUNT(e.rental_id) AS rental_number')
+            
+            ->leftJoin(
+                'App\Entity\FilmCategory',
+                'c',
+                'WITH',
+                'c.film_id = a.film_id'
+            )
+            ->leftJoin(
+                'App\Entity\Category',
+                'b',
+                'WITH',
+                'b.category_id = c.category_id'
+            )
+            ->leftJoin(
+                'App\Entity\Inventory',
+                'd',
+                'WITH',
+                'd.film_id = c.film_id'
+            )
+            ->leftJoin(
+                'App\Entity\Rental',
+                'e',
+                'WITH',
+                'e.inventory_id = d.inventory_id'
+            )
+            ->groupBy('d.film_id')
+            ->orderBy('a.title','ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function sortDESCFilm()
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a.title, a.rental_rate, a.rating, b.name , COUNT(e.rental_id) AS rental_number')
+            
+            ->leftJoin(
+                'App\Entity\FilmCategory',
+                'c',
+                'WITH',
+                'c.film_id = a.film_id'
+            )
+            ->leftJoin(
+                'App\Entity\Category',
+                'b',
+                'WITH',
+                'b.category_id = c.category_id'
+            )
+            ->leftJoin(
+                'App\Entity\Inventory',
+                'd',
+                'WITH',
+                'd.film_id = c.film_id'
+            )
+            ->leftJoin(
+                'App\Entity\Rental',
+                'e',
+                'WITH',
+                'e.inventory_id = d.inventory_id'
+            )
+            ->groupBy('d.film_id')
+            ->orderBy('a.title','DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function sortASCRental()
+    {
+        return $this->createQueryBuilder('a')
+        ->select('a.title, a.rental_rate, a.rating, b.name , COUNT(e.rental_id) AS rental_number')
+        
+        ->leftJoin(
+            'App\Entity\FilmCategory',
+            'c',
+            'WITH',
+            'c.film_id = a.film_id'
+        )
+        ->leftJoin(
+            'App\Entity\Category',
+            'b',
+            'WITH',
+            'b.category_id = c.category_id'
+        )
+        ->leftJoin(
+            'App\Entity\Inventory',
+            'd',
+            'WITH',
+            'd.film_id = c.film_id'
+        )
+        ->leftJoin(
+            'App\Entity\Rental',
+            'e',
+            'WITH',
+            'e.inventory_id = d.inventory_id'
+        )
+        ->groupBy('d.film_id')
+        ->orderBy('rental_number','ASC')
+        ->getQuery()
+        ->getResult()
+        ;
+    }
+
+    public function sortDESCRental()
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a.title, a.rental_rate, a.rating, b.name , COUNT(e.rental_id) AS rental_number')
+            
+            ->leftJoin(
+                'App\Entity\FilmCategory',
+                'c',
+                'WITH',
+                'c.film_id = a.film_id'
+            )
+            ->leftJoin(
+                'App\Entity\Category',
+                'b',
+                'WITH',
+                'b.category_id = c.category_id'
+            )
+            ->leftJoin(
+                'App\Entity\Inventory',
+                'd',
+                'WITH',
+                'd.film_id = c.film_id'
+            )
+            ->leftJoin(
+                'App\Entity\Rental',
+                'e',
+                'WITH',
+                'e.inventory_id = d.inventory_id'
+            )
+            ->groupBy('d.film_id')
+            ->orderBy('rental_number','DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Film[] Returns an array of Film objects
     //  */

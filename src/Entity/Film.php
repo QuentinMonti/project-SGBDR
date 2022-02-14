@@ -15,7 +15,7 @@ class Film
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $filmId;
+    private $film_id;
 
     /**
      * @ORM\Column(type="string", length=128)
@@ -32,9 +32,14 @@ class Film
      */
     private $rating;
 
+    /**
+     * @ORM\Column(type="decimal", precision=4, scale=2)
+     */
+    private $rental_duration;
+
     public function getFilmId(): ?int
     {
-        return $this->filmId;
+        return $this->film_id;
     }
 
     public function getTitle(): ?string
@@ -69,6 +74,18 @@ class Film
     public function setRating(string $rating): self
     {
         $this->rating = $rating;
+
+        return $this;
+    }
+
+    public function getRentalDuration(): ?string
+    {
+        return $this->rental_duration;
+    }
+
+    public function setRentalDuration(string $rental_duration): self
+    {
+        $this->rental_duration = $rental_duration;
 
         return $this;
     }

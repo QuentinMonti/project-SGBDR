@@ -8,8 +8,8 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Film_id</th>
-                <td>{{ film.filmId }}</td>
+                <th>Id</th>
+                <td>{{ film.id }}</td>
             </tr>
             <tr>
                 <th>Title</th>
@@ -28,7 +28,7 @@
 
     <a href="{{ path('film_index') }}">back to list</a>
 
-    <a href="{{ path('film_edit', {'film_id': film.film_id}) }}">edit</a>
+    <a href="{{ path('film_edit', {'id': film.id}) }}">edit</a>
 
     {{ include('film/_delete_form.html.twig') }}
 {% endblock %}

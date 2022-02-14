@@ -4,26 +4,99 @@ namespace App\Controller;
 
 use App\Entity\Film;
 use App\Form\FilmType;
+use App\Repository\FilmCategoryRepository;
 use App\Repository\FilmRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/quentin")
+ * @Route("/movie")
  */
 class FilmController extends AbstractController
 {
     /**
      * @Route("/", name="film_index", methods={"GET"})
      */
-    public function index(FilmRepository $filmRepository): Response
+    public function index(FilmRepository $filmRepository,PaginatorInterface $paginator, Request $request): Response
     {
+        $donnees = $filmRepository->findAll();
+        $film = $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page',1),10
+
+        );
         return $this->render('film/index.html.twig', [
-            'films' => $filmRepository->findAll(),
+            'films' => $film,
         ]);
     }
+
+    /**
+     * @Route("/titre/asc", name="film_title_asc", methods={"GET"})
+     */
+    public function sortTitleASC(FilmRepository $filmRepository,PaginatorInterface $paginator, Request $request): Response
+    {
+        $donnees = $filmRepository->sortASCFilm();
+        $film = $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page',1),10
+
+        );
+        return $this->render('film/index.html.twig', [
+            'films' => $film,
+        ]);
+    }
+
+    /**
+     * @Route("/titre/desc", name="film_title_desc", methods={"GET"})
+     */
+    public function sortTitleDESC(FilmRepository $filmRepository,PaginatorInterface $paginator, Request $request): Response
+    {
+        $donnees = $filmRepository->sortDESCFilm();
+        $film = $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page',1),10
+
+        );
+        return $this->render('film/index.html.twig', [
+            'films' => $film,
+        ]);
+    }
+
+    /**
+     * @Route("/rental/asc", name="film_rental_asc", methods={"GET"})
+     */
+    public function sortRentalASC(FilmRepository $filmRepository,PaginatorInterface $paginator, Request $request): Response
+    {
+        $donnees = $filmRepository->sortASCRental();
+        $film = $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page',1),10
+
+        );
+        return $this->render('film/index.html.twig', [
+            'films' => $film,
+        ]);
+    }
+
+    /**
+     * @Route("/rental/desc", name="film_rental_desc", methods={"GET"})
+     */
+    public function sortRentalDESC(FilmRepository $filmRepository,PaginatorInterface $paginator, Request $request): Response
+    {
+        $donnees = $filmRepository->sortDESCRental();
+        $film = $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page',1),10
+
+        );
+        return $this->render('film/index.html.twig', [
+            'films' => $film,
+        ]);
+    }
+
 
     /**
      * @Route("/new", name="film_new", methods={"GET","POST"})
@@ -49,7 +122,7 @@ class FilmController extends AbstractController
     }
 
     /**
-     * @Route("/{film_id}", name="film_show", methods={"GET"})
+     * @Route("/{id}", name="film_show", methods={"GET"})
      */
     public function show(Film $film): Response
     {
@@ -59,7 +132,7 @@ class FilmController extends AbstractController
     }
 
     /**
-     * @Route("/{film_id}/edit", name="film_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="film_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Film $film): Response
     {
@@ -79,11 +152,11 @@ class FilmController extends AbstractController
     }
 
     /**
-     * @Route("/{film_id}", name="film_delete", methods={"POST"})
+     * @Route("/{id}", name="film_delete", methods={"POST"})
      */
     public function delete(Request $request, Film $film): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$film->getFilm_id(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$film->getFilmId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($film);
             $entityManager->flush();

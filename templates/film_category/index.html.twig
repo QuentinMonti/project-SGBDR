@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Application Symfony 4.4 Deploy with Heroku By SCHIAPPAPIETRE Jérémy MT4{% endblock %}
+
+{% block body %}
+        <p >Nom du film : <a href="{{ path('film_title_asc') }}" >ASC</a>   <a href="{{ path('film_title_desc')}}" >DESC</a></p><br>
+        <p>Genre du film : <a href="{{ path('film_category_asc') }}">ASC</a>   <a href="{{ path('film_category_desc') }}" >DESC</a></p><br>
+        <p>Nombre de location : <a href="{{ path('film_rental_asc') }}" >ASC</a>   <a href="{{ path('film_rental_desc') }}" >DESC</a></p><br>
+    </div>
+    
+
+    <table>
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Prix Location</th>
+                <th>Classement</th>
+                <th>Catégorie</th>
+                <th>Nombre de Location</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for film_category in film_categories %}
+            <tr>
+                {# <td>{{ film_category.filmId }}</td> #}
+                <td>{{ film_category.title }}</td>
+                <td>{{ film_category.rental_rate }}</td>
+                <td>{{ film_category.rating }}</td>
+                <td>{{ film_category.name }}</td>
+                <td>{{ film_category.rental_number }}</td>
+                
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {{knp_pagination_render(film_categories)}}
+
+    {# <a href="{{ path('film_category_new') }}">Create new</a> #}
+{% endblock %}
