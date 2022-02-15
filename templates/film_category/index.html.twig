@@ -3,13 +3,23 @@
 {% block title %}Application Symfony 4.4 Deploy with Heroku By SCHIAPPAPIETRE Jérémy MT4{% endblock %}
 
 {% block body %}
+    <div style='border: 2px solid black;
+                border-radius: 2%;
+                width: 40%;
+                height: 18em;
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: 5%;
+                background-color: #F5F5F5;'>
+        <h1>Filtrer :</h1>
         <p >Nom du film : <a href="{{ path('film_title_asc') }}" >ASC</a>   <a href="{{ path('film_title_desc')}}" >DESC</a></p><br>
         <p>Genre du film : <a href="{{ path('film_category_asc') }}">ASC</a>   <a href="{{ path('film_category_desc') }}" >DESC</a></p><br>
         <p>Nombre de location : <a href="{{ path('film_rental_asc') }}" >ASC</a>   <a href="{{ path('film_rental_desc') }}" >DESC</a></p><br>
     </div>
     
 
-    <table>
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th>Titre</th>
@@ -37,7 +47,7 @@
         {% endfor %}
         </tbody>
     </table>
-    {{knp_pagination_render(film_categories)}}
+    <div style='margin-left: 50%; margin-right: 50%;'>{{knp_pagination_render(film_categories)}}</div>
 
     {# <a href="{{ path('film_category_new') }}">Create new</a> #}
 {% endblock %}
